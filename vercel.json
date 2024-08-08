@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "backend/index.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "loginsignup/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "loginsignup/build"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/backend/index.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/loginsignup/$1"
+      }
+    ]
+  }
+  
