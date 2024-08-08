@@ -60,9 +60,11 @@ function Navbar() {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+            
+         
             }}
           >
-            Brainscraft
+           Brainscraft
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -116,6 +118,8 @@ function Navbar() {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+              fontSize: { xs: '1rem', md: '1.5rem' }
+            
             }}
           >
             Brainscraft
