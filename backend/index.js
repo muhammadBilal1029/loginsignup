@@ -8,9 +8,10 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs'); // Add bcrypt for password hashing
 const jwt = require('jsonwebtoken'); // Add jsonwebtoken for JWT
 
+
 app.use(cors());
 app.use(body_parser.json());
-const PORT = 5000
+const PORT = 4000
 const userSchema = new mongoose.Schema({
   fname: String,
   lname: String,
@@ -24,6 +25,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     .catch(err => console.error('Could not connect to MongoDB', err));
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+  
 });
 
 
