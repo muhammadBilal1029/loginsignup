@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import myimage from '../assets/myimage.jpg';
 
 const pages = ['Signup', 'Login'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Logout'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
