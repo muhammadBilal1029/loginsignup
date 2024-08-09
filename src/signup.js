@@ -16,11 +16,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
-import {ToastContainer,toast} from 'react-toastify'
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
-function Copyright(props:any) {
+function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -36,9 +38,20 @@ function Copyright(props:any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const formik = useFormik({
-    
+
     initialValues: {
       fname: '',
       lname: '',
@@ -55,28 +68,28 @@ export default function SignUp() {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Required'),
     }),
-    onSubmit: async (values, { setSubmitting ,resetForm}) => {
-     console.log(process.env.REACT_APP_LOCAL_URL);
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      console.log(process.env.REACT_APP_LOCAL_URL);
       try {
         const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/signup`, values);
         console.log(response.data);
-        toast.success('Signup successfully!',{
-          autoClose:1000,
-          onClose:()=>navigate('/login')
+        toast.success('Signup successfully!', {
+          autoClose: 1000,
+          onClose: () => navigate('/login')
         });
         // setSuccess('User created successfully!');
         resetForm();
       } catch (error) {
         if (error.response && error.response.data.message === 'Email already exists') {
-          
-          toast.error('Email already exists',{
-            autoClose:1500
+
+          toast.error('Email already exists', {
+            autoClose: 1500
           });
 
         } else {
 
-          toast.error('Signup not successful',{
-            autoClose:1500
+          toast.error('Signup not successful', {
+            autoClose: 1500
           });
         }
       } finally {
@@ -89,7 +102,7 @@ export default function SignUp() {
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <ToastContainer/>
+        <ToastContainer />
         <Box
           sx={{
             marginTop: 8,
@@ -157,8 +170,22 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
+                  type={showPassword ? 'text' : 'password'}
                   label="Password"
-                  type="password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   id="password"
                   autoComplete="new-password"
                   value={formik.values.password}
@@ -173,8 +200,22 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   label="Confirm Password"
-                  type="password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle confirm password visibility"
+                          onClick={handleClickShowConfirmPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   id="confirmPassword"
                   autoComplete="new-password"
                   value={formik.values.confirmPassword}
@@ -191,7 +232,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-           
+
             <Button
               type="submit"
               fullWidth
